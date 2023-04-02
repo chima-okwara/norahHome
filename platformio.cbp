@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="norahHome" />
+		<Option makefile_is_custom="1" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<MakeCommands>
+			<Build command="/home/chima/.local/bin/pio -f -c codeblocks run" />
+			<CompileFile command="/home/chima/.local/bin/pio -f -c codeblocks run" />
+			<Clean command="/home/chima/.local/bin/pio -f -c codeblocks run -t clean" />
+			<DistClean command="/home/chima/.local/bin/pio -f -c codeblocks run -t clean" />
+			<AskRebuildNeeded command="1" />
+			<SilentBuild command="/home/chima/.local/bin/pio -f -c codeblocks run &gt; $(CMD_NULL)" />
+		</MakeCommands>
+		<Build>
+			<Target title="Debug">
+				<Option type="4" />
+				<Option compiler="gcc" />
+				<Option parameters="-f -c codeblocks run -t upload" />
+				<Option host_application="/home/chima/.local/bin/pio" />
+				<Option run_host_application_in_terminal="1" />
+				<Option use_console_runner="0" />
+				<MakeCommands>
+					<Build command="/home/chima/.local/bin/pio -f -c codeblocks run" />
+					<CompileFile command="/home/chima/.local/bin/pio -f -c codeblocks run" />
+					<Clean command="/home/chima/.local/bin/pio -f -c codeblocks run -t clean" />
+					<DistClean command="/home/chima/.local/bin/pio -f -c codeblocks run -t clean" />
+					<AskRebuildNeeded command="1" />
+					<SilentBuild command="/home/chima/.local/bin/pio -f -c codeblocks run &gt; $(CMD_NULL)" />
+				</MakeCommands>
+			</Target>
+			<Target title="Release">
+				<Option type="4" />
+				<Option compiler="gcc" />
+				<Option parameters="-f -c codeblocks run -t upload" />
+				<Option host_application="/home/chima/.local/bin/pio" />
+				<Option run_host_application_in_terminal="1" />
+				<Option use_console_runner="0" />
+				<MakeCommands>
+					<Build command="/home/chima/.local/bin/pio -f -c codeblocks run" />
+					<CompileFile command="/home/chima/.local/bin/pio -f -c codeblocks run" />
+					<Clean command="/home/chima/.local/bin/pio -f -c codeblocks run -t clean" />
+					<DistClean command="/home/chima/.local/bin/pio -f -c codeblocks run -t clean" />
+					<AskRebuildNeeded command="1" />
+					<SilentBuild command="/home/chima/.local/bin/pio -f -c codeblocks run &gt; $(CMD_NULL)" />
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-DPLATFORMIO=60106"/>
+			<Add option="-DSTM32F1"/>
+			<Add option="-DSTM32F103xB"/>
+			<Add option="-DSTM32F1xx"/>
+			<Add option="-DARDUINO=10808"/>
+			<Add option="-DARDUINO_ARCH_STM32"/>
+			<Add option="-DARDUINO_BLUEPILL_F103C8"/>
+			<Add option="-DBOARD_NAME=&quot;BLUEPILL_F103C8&quot;"/>
+			<Add option="-DHAL_UART_MODULE_ENABLED"/>
+			<Add option="-DUSE_FULL_LL_DRIVER"/>
+			<Add option="-DVARIANT_H=&quot;variant_PILL_F103Cx.h&quot;"/>
+			<Add option="-DNDEBUG"/>
+			<Add directory="/home/chima/Documents/PlatformIO/Projects/norahHome/include"/>
+			<Add directory="/home/chima/Documents/PlatformIO/Projects/norahHome/src"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/cores/arduino/avr"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32/LL"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32/usb"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32/OpenAMP"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32/usb/hid"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32/usb/cdc"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/system/Drivers/STM32F1xx_HAL_Driver/Inc"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/system/Drivers/STM32F1xx_HAL_Driver/Src"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/system/STM32F1xx"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/system/Middlewares/ST/STM32_USB_Device_Library/Core/Inc"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/system/Middlewares/ST/STM32_USB_Device_Library/Core/Src"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/system/Middlewares/OpenAMP"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/system/Middlewares/OpenAMP/open-amp/lib/include"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/system/Middlewares/OpenAMP/libmetal/lib/include"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/system/Middlewares/OpenAMP/virtual_driver"/>
+			<Add directory="/home/chima/.platformio/packages/framework-cmsis/CMSIS/Core/Include"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/system/Drivers/CMSIS/Device/ST/STM32F1xx/Include"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/system/Drivers/CMSIS/Device/ST/STM32F1xx/Source/Templates/gcc"/>
+			<Add directory="/home/chima/.platformio/packages/framework-cmsis/CMSIS/DSP/Include"/>
+			<Add directory="/home/chima/.platformio/packages/framework-cmsis/CMSIS/DSP/PrivateInclude"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/cores/arduino"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/variants/STM32F1xx/F103C8T_F103CB(T-U)"/>
+			<Add directory="/home/chima/Documents/PlatformIO/Projects/norahHome/lib/homelib"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/libraries/CMSIS_DSP/src"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/libraries/EEPROM/src"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/libraries/IWatchdog/src"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/libraries/Keyboard/src"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/libraries/Mouse/src"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/libraries/RGB_LED_TLC59731/src"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/libraries/SPI/src"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/libraries/Servo/src"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/libraries/SoftwareSerial/src"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/libraries/SrcWrapper/src"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/libraries/SubGhz/src"/>
+			<Add directory="/home/chima/.platformio/packages/framework-arduinoststm32/libraries/Wire/src"/>
+			<Add directory="/home/chima/.platformio/packages/toolchain-gccarmnoneeabi/arm-none-eabi/include/c++/9.2.1"/>
+			<Add directory="/home/chima/.platformio/packages/toolchain-gccarmnoneeabi/arm-none-eabi/include/c++/9.2.1/arm-none-eabi"/>
+			<Add directory="/home/chima/.platformio/packages/toolchain-gccarmnoneeabi/lib/gcc/arm-none-eabi/9.2.1/include"/>
+			<Add directory="/home/chima/.platformio/packages/toolchain-gccarmnoneeabi/lib/gcc/arm-none-eabi/9.2.1/include-fixed"/>
+			<Add directory="/home/chima/.platformio/packages/toolchain-gccarmnoneeabi/arm-none-eabi/include"/>
+		</Compiler>
+		<Unit filename="platformio.ini" />
+		<Unit filename="src/main.cpp"></Unit>
+	</Project>
+</CodeBlocks_project_file>
