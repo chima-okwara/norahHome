@@ -3,7 +3,7 @@
 //*FILE DESC:       Header file for norahHome.
 //*FILE VERSION:    0.1.1
 //*FILE AUTHOR:     Favour Aina
-//*LAST MODIFIED:   Saturday, 1 April, 2023 20:19
+//*LAST MODIFIED:   Monday, 3 April, 2023 19:35 (chima_okwara)
 //*LICENSE:         Academic Free License
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifndef ___NORAHHOME___
@@ -23,6 +23,39 @@ enum class direction_t { forward = (bool) true, backward = (bool) false };
 
 class GasSensor
 {
+public:
+    //Constructors:
+    GasSensor() = default;
+    GasSensor(pin_t signalPin, pin_t threshold);
+    ~GasSensor();
+
+    //Methods:
+    void begin();
+    void measure();
+    bool gasDetect() const;
+
+private:
+    uint32_t _signalPin, _threshold, _value;
+    bool isGas;
+};
+
+class CurrentSensor
+{
+public:
+    //Constructors:
+    CurrentSensor() = default;
+    CurrentSensor(pin_t signalPin, const float& sensitivity);
+    ~CurrentSensor();
+
+    //Methods:
+    void begin();
+    void measure();
+    float getValue() const;
+
+private:
+    uint32_t _signalPin;
+    float _sensitivity, _value;
+
 
 };
 
@@ -38,7 +71,7 @@ public:
     //Method:
     void begin();
     const float& measure() const;
-    const float& getSoilMoisture() const;
+    const float getSoilMoisture() const;
 
 private:
     uint32_t _signalPin;
@@ -53,14 +86,14 @@ public:
     LEDDriver() = default;
     LEDDriver(pin_t signal);
     bool begin();
-    pin_t setBrightness(pin_t brightness);
-    pin_t on();
-    pin_t off();
-    pin_t getBrightness() const;
+    uint32_t setBrightness(pin_t brightness);
+    uint32_t on();
+    uint32_t off();
+    uint32_t getBrightness() const;
 
 private:
-    pin_t _signalPin;
-    pin_t _brightness;
+    uint32_t _signalPin;
+    uint32_t _brightness;
 
 };
 
@@ -72,12 +105,12 @@ public:
     DCMotor() = default;
     DCMotor(pin_t mot1, pin_t mot2, pin_t en);
     bool begin();
-    const direction_t& move(const direction_t& dir, pin_t speed);
+    direction_t move(const direction_t& dir, pin_t speed);
     void stop();
-    const direction_t& getDir() const;
+    direction_t getDir() const;
 
 private:
-    pin_t _mot1, _mot2, _en;
+    uint32_t _mot1, _mot2, _en;
     direction_t _dir;
 
 };
