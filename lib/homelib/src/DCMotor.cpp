@@ -3,7 +3,7 @@
 //*FILE DESC:       Implementation file for DCMotor.
 //*FILE VERSION:    0.1.1
 //*FILE AUTHOR:     Chimaroke Okwara
-//*LAST MODIFIED:   Saturday, 1 April, 2023 20:19
+//*LAST MODIFIED:   Monday, 3 April, 2023 19:35 (chima_okwara)
 //*LICENSE:         Academic Free License
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #include <Arduino.h>
