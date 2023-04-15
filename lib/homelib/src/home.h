@@ -137,4 +137,9 @@ class norahHome
  uint8_t _startLed;
 };
 
+class PIRSensor
+{
+public:
+    PIRSensor() =
+};
 #endif
