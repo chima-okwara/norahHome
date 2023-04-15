@@ -10,29 +10,29 @@
 #include "home.h"
 
 
-norahHome::norahHome(const uint8_t &speaker, const uint8_t &startLed)
-: _speaker {speaker}, _startLed {startLed}
+norahHome::norahHome(DCMotor* Gate, LiquidCrystal_I2C* Screen):lcd(Screen), gate(Gate)
 {
-    pinMode(_startLed, OUTPUT);
-    pinMode(_speaker, OUTPUT);
-
-    for(size_t i {}; i < 5; i++)
-    {
-        digitalWrite(_speaker, HIGH);
-        digitalWrite(_startLed, LOW);
-        delay(800);
-        digitalWrite(_speaker, LOW);
-        digitalWrite(_startLed, LOW);
-        delay(800);
-    }
-
 
 }
+
 
 void norahHome::begin()
 {
-    adc_init();
+
 }
 
+void norahHome::openGate()
+{
+    gate->move(direction_t::backward, 2048);
+    delay(4000);
+    gate->stop();
+}
+
+void norahHome::closeGate()
+{
+    gate->move(direction_t::forward, 2048);
+    delay(4000);
+    gate->stop();
+}
 
 

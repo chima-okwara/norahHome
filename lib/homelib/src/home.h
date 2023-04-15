@@ -21,13 +21,24 @@
 using pin_t = const uint32_t&;
 enum class direction_t { forward = (bool) true, backward = (bool) false };
 
+void readPIR()
+{
+    _detected = ( (digitalRead(_signalPin) == HIGH) ? true : false );
+}
+
+void readIR()
+{
+    _detected = ( (digitalRead(_signalPin) == LOW) ? true : false ); 
+}
+
+
 class GasSensor
 {
 public:
     //Constructors:
     GasSensor() = default;
     GasSensor(pin_t signalPin, pin_t threshold);
-    ~GasSensor();
+    // ~GasSensor();
 
     //Methods:
     void begin();
@@ -103,43 +114,83 @@ class DCMotor
 public:
 //To use L293D IC
     DCMotor() = default;
-    DCMotor(pin_t mot1, pin_t mot2, pin_t en);
+    DCMotor(pin_t mot1, pin_t mot2);
     bool begin();
-    direction_t move(const direction_t& dir, pin_t speed);
+    const direction_t& move(const direction_t& dir, pin_t speed);
     void stop();
-    direction_t getDir() const;
+    const direction_t& getDir() const;
 
 private:
-    uint32_t _mot1, _mot2, _en;
+    uint32_t _mot1, _mot2;
     direction_t _dir;
 
 };
 
+class IRSensor
+{
+public:
+    IRSensor() = default;
+    IRSensor(pin_t signalPin);
+
+    void begin();
+    const bool& detect();
+    friend void readIR();
+
+private:
+    uint32_t _signalPin;
+    bool _detected;
+}
+
+class PIRSensor
+{
+public:
+    PIRSensor() = default;
+    PIRSensor(pin_t signalPin);
+    
+    void begin();
+    const bool& isMotion();
+    friend void readPIR();
+
+private:
+    uint32_t _signalPin;
+    bool _detected;
+    bool _lastDetect;
+};
 
 class norahHome
 {
  public:
   //constructor speake
  norahHome() = default;
- norahHome(const uint8_t &speaker, const uint8_t &startLed);
+ norahHome(DCMotor *Gate, LiquidCrystal_I2C *Screen);
 
 
- void begin();
  // methods
- uint8_t lights();
- uint8_t door();
+void begin();
+void openGate();
+void closeGate();
 
+
+ private:
  //Devices:
  SoilMoisture *soilMoisture;
+
  LiquidCrystal_I2C *lcd;
- Liquid
- uint8_t _speaker;
- uint8_t _startLed;
+
+ IRSensor *gateSensor;
+ PIRSensor *motion;
+
+ DCMotor *fan;
+ DCMotor *gate;
+ DCMotor *windows
+ DCMotor *door
+
+ GasSensor *gasSensor;
+
+ LEDDriver *sittingRoomLights;
+ LEDDriver *bedRoomLights;
+
+
 };
 
-class PIRSensor
-{
-public:
-    PIRSensor() =
-};
 #endif

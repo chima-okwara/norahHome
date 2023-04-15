@@ -11,16 +11,15 @@
 #ifndef MRES
 #define MRES 16
 #endif
-DCMotor::DCMotor(pin_t mot1, pin_t mot2, pin_t en):_mot1(mot1), _mot2(mot2), _en(en), _dir(forward)
+DCMotor::DCMotor(pin_t mot1, pin_t mot2):_mot1(mot1), _mot2(mot2), _dir(direction_t::forward)
 {
 
 }
 
 bool DCMotor::begin()
 {
-    pinMode(_mot1, PWM);
-    pinMode(_mot2, PWM);
-    pinMode(_en, OUTPUT);
+    pinMode(_mot1, OUTPUT);
+    pinMode(_mot2, OUTPUT);
     analogWriteResolution(MRES);
     return(true);
 }
@@ -30,21 +29,21 @@ const direction_t& DCMotor::move(const direction_t& dir, pin_t speed)
     switch(dir)
     {
         analogWriteResolution(MRES);
-        case forward:
+        case direction_t::forward:
         {
-            digitalWrite(_en, HIGH);
+            // digitalWrite(_en, HIGH);
             analogWrite(_mot1, speed);
             analogWrite(_mot2, 0);
-            _dir = forward;
+            _dir = direction_t::forward;
             break;
         }
 
-        case backward:
+        case direction_t::backward:
         {
-            digitalWrite(_en, HIGH);
+            // digitalWrite(_en, HIGH);
             analogWrite(_mot1, 0);
             analogWrite(_mot2, speed);
-            _dir = backward;
+            _dir = direction_t::backward;
             break;
         }
     }
@@ -55,7 +54,7 @@ const direction_t& DCMotor::move(const direction_t& dir, pin_t speed)
 
 void DCMotor::stop()
 {
-    digitalWrite(_en, 0);
+    // digitalWrite(_en, 0);
     analogWrite(_mot1, 0);
     analogWrite(_mot2, 0);
 }

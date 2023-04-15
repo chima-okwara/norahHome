@@ -12,7 +12,7 @@
 #define GRES 12
 #endif
 
-GasSensor::GasSensor(pin_t signalPin, pin_t threshold) :_signalPin(signalPin), _threshold(threshold), value(0)
+GasSensor::GasSensor(pin_t signalPin, pin_t threshold) :_signalPin(signalPin), _threshold(threshold), _value(0)
 {
 
 }
@@ -29,7 +29,7 @@ void GasSensor::measure()
     _value = analogRead(_signalPin);
 }
 
-bool gasDetect() const
+bool GasSensor::gasDetect() const
 {
     return ( (_value > _threshold) ? true : false);
 }
