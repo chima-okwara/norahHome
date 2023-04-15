@@ -6,10 +6,10 @@
 DCMotor gate (PB1, PB2);
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 norahHome home (&gate, &lcd);
+
+
 void setup()
 {
-    gate.begin();
-    lcd.init();
     home.begin();
 }
  

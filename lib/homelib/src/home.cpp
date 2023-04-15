@@ -18,6 +18,8 @@ norahHome::norahHome(DCMotor* Gate, LiquidCrystal_I2C* Screen):lcd(Screen), gate
 
 void norahHome::begin()
 {
+    lcd->init();
+    gate->begin();
 
 }
 

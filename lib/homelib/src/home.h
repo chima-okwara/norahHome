@@ -41,7 +41,7 @@ public:
     // ~GasSensor();
 
     //Methods:
-    void begin();
+    inline void begin();
     void measure();
     bool gasDetect() const;
 
@@ -59,7 +59,7 @@ public:
     ~CurrentSensor();
 
     //Methods:
-    void begin();
+    inline void begin();
     void measure();
     float getValue() const;
 
@@ -80,7 +80,7 @@ public:
     ~SoilMoisture();
 
     //Method:
-    void begin();
+    inline void begin();
     const float& measure() const;
     const float getSoilMoisture() const;
 
@@ -96,7 +96,7 @@ class LEDDriver
 public:
     LEDDriver() = default;
     LEDDriver(pin_t signal);
-    bool begin();
+    inline bool begin();
     uint32_t setBrightness(pin_t brightness);
     uint32_t on();
     uint32_t off();
@@ -115,7 +115,7 @@ public:
 //To use L293D IC
     DCMotor() = default;
     DCMotor(pin_t mot1, pin_t mot2);
-    bool begin();
+    inline bool begin();
     const direction_t& move(const direction_t& dir, pin_t speed);
     void stop();
     const direction_t& getDir() const;
@@ -132,7 +132,7 @@ public:
     IRSensor() = default;
     IRSensor(pin_t signalPin);
 
-    void begin();
+    inline void begin();
     const bool& detect();
     friend void readIR();
 
@@ -147,7 +147,7 @@ public:
     PIRSensor() = default;
     PIRSensor(pin_t signalPin);
     
-    void begin();
+    inline void begin();
     const bool& isMotion();
     friend void readPIR();
 
@@ -165,8 +165,9 @@ class norahHome
  norahHome(DCMotor *Gate, LiquidCrystal_I2C *Screen);
 
 
+
  // methods
-void begin();
+inline void begin();
 void openGate();
 void closeGate();
 
@@ -189,8 +190,6 @@ void closeGate();
 
  LEDDriver *sittingRoomLights;
  LEDDriver *bedRoomLights;
-
-
 };
 
 #endif
