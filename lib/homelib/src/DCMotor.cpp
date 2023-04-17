@@ -16,7 +16,7 @@ DCMotor::DCMotor(pin_t mot1, pin_t mot2):_mot1(mot1), _mot2(mot2), _dir(directio
 
 }
 
- inline bool DCMotor::begin()
+bool DCMotor::begin()
 {
     pinMode(_mot1, OUTPUT);
     pinMode(_mot2, OUTPUT);

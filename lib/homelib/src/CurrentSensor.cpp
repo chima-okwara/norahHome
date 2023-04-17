@@ -29,7 +29,7 @@ void CurrentSensor::measure()
     float _value = (float(raw)- 512) / 4096.0 * 5000 / _sensitivity;     //TODO: VERIFY formula
 }
 
-uint32_t CurrentSensor::getValue() const
+float CurrentSensor::getValue() const
 {
     return(_value);
 }

@@ -21,16 +21,11 @@
 using pin_t = const uint32_t&;
 enum class direction_t { forward = (bool) true, backward = (bool) false };
 
-void readPIR()
-{
-    _detected = ( (digitalRead(_signalPin) == HIGH) ? true : false );
-}
+template <typename T>
+    void readPIR(T *sensor);
 
-void readIR()
-{
-    _detected = ( (digitalRead(_signalPin) == LOW) ? true : false ); 
-}
-
+template <typename T>
+    void readIR(T *sensor);
 
 class GasSensor
 {
@@ -41,7 +36,7 @@ public:
     // ~GasSensor();
 
     //Methods:
-    inline void begin();
+    void begin();
     void measure();
     bool gasDetect() const;
 
@@ -59,7 +54,7 @@ public:
     ~CurrentSensor();
 
     //Methods:
-    inline void begin();
+    void begin();
     void measure();
     float getValue() const;
 
@@ -80,9 +75,9 @@ public:
     ~SoilMoisture();
 
     //Method:
-    inline void begin();
+    void begin();
     const float& measure() const;
-    const float getSoilMoisture() const;
+    const float& getSoilMoisture() const;
 
 private:
     uint32_t _signalPin;
@@ -96,11 +91,11 @@ class LEDDriver
 public:
     LEDDriver() = default;
     LEDDriver(pin_t signal);
-    inline bool begin();
-    uint32_t setBrightness(pin_t brightness);
-    uint32_t on();
-    uint32_t off();
-    uint32_t getBrightness() const;
+    bool begin();
+    const uint32_t& setBrightness(pin_t brightness);
+    const uint32_t& on();
+    const uint32_t& off();
+    const uint32_t& getBrightness() const;
 
 private:
     uint32_t _signalPin;
@@ -115,7 +110,7 @@ public:
 //To use L293D IC
     DCMotor() = default;
     DCMotor(pin_t mot1, pin_t mot2);
-    inline bool begin();
+    bool begin();
     const direction_t& move(const direction_t& dir, pin_t speed);
     void stop();
     const direction_t& getDir() const;
@@ -132,29 +127,30 @@ public:
     IRSensor() = default;
     IRSensor(pin_t signalPin);
 
-    inline void begin();
+    void begin();
     const bool& detect();
-    friend void readIR();
+    template <typename T>
+        void readIR(T *sensor);
 
 private:
-    uint32_t _signalPin;
-    bool _detected;
-}
+    volatile uint32_t _signalPin;
+    volatile bool _detected;
+};
 
 class PIRSensor
 {
 public:
     PIRSensor() = default;
     PIRSensor(pin_t signalPin);
-    
-    inline void begin();
+
+    void begin();
     const bool& isMotion();
-    friend void readPIR();
+    template <typename T>
+        void readPIR(T *sensor);
 
 private:
-    uint32_t _signalPin;
-    bool _detected;
-    bool _lastDetect;
+    volatile uint32_t _signalPin;
+    volatile bool _detected;
 };
 
 class norahHome
@@ -167,7 +163,7 @@ class norahHome
 
 
  // methods
-inline void begin();
+void begin();
 void openGate();
 void closeGate();
 
@@ -183,8 +179,8 @@ void closeGate();
 
  DCMotor *fan;
  DCMotor *gate;
- DCMotor *windows
- DCMotor *door
+ DCMotor *windows;
+ DCMotor *door;
 
  GasSensor *gasSensor;
 
