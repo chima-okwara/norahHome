@@ -12,14 +12,14 @@
 #define LRES 16
 #endif
 
-LEDDriver::LEDDriver(pin_t signalPin):_signalPin(signalPin), brightness(0)
+LEDDriver::LEDDriver(pin_t signalPin):_signalPin(signalPin), _brightness(0)
 {
 
 }
 
 bool LEDDriver::begin()
 {
-    pinMode(_signalPin, PWM);
+    pinMode(_signalPin, OUTPUT);
     analogWriteResolution(LRES);
     return true;
 }

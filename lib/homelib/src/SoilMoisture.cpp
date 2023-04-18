@@ -12,12 +12,12 @@
 #define SRES 12
 #endif
 
-SoilMoisture::SoilMoisture(const uint32_t& pin, const uint32_t& power): _signalPin(new uint32_t (pin)), _powerPin(new uint32_t (power)), __moistureValue(new float (0.0))
+SoilMoisture::SoilMoisture(const uint32_t& pin, const uint32_t& power): _signalPin(pin), _powerPin(power), _moistureValue(new float (0.0))
 {
 
 }
 
-const float& SoilMoisture::measure()
+const float& SoilMoisture::measure() const
 {
     analogReadResolution(SRES);
     digitalWrite(_powerPin, HIGH);
@@ -36,7 +36,7 @@ void SoilMoisture::begin()
     measure();
 }
 
-const float& SoilMoisture::getSoilMoisture()
+const float& SoilMoisture::getSoilMoisture() const
 {
     return *_moistureValue;
 }

@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "home.h"
+#include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 #include <Servo.h>
 
@@ -12,12 +13,14 @@ void setup()
 {
     home.begin();
 }
- 
+
 
 void loop()
 {
+    home.display("Opening Gate");
     home.openGate();
     delay(1000);
+    home.display("closing gate");
     home.closeGate();
 
 }
