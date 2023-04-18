@@ -6,32 +6,38 @@
 //*LAST MODIFIED:   Monday, 3 April, 2023 19:35 (chima_okwara)
 //*LICENSE:         Academic Free License
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include <Arduino.h>
 #include "home.h"
-#ifndef ARES
-#define ARES 12
+#ifndef LRES
+#define LRES 12
 #endif
 
-CurrentSensor::CurrentSensor(pin_t signalPin, const float& sensitivity = 0.185) :_signalPin(signalPin), _sensitivity(sensitivity), _value(0)
+LightSensor::LightSensor(pin_t signalPin):_signalPin(signalPin)
 {
 
 }
 
-void CurrentSensor::begin()
+void LightSensor::begin()
 {
     pinMode(_signalPin, INPUT_ANALOG);
-    analogReadResolution(ARES);
+    analogReadResolution(LRES);
 }
 
-void CurrentSensor::measure()
+const bool& LightSensor::measure(uint32_t level)
 {
     static uint32_t raw = analogRead(_signalPin);
-    float _value = (float(raw)- 2048) * (5.0 / 4096.0 - 2.5/5.0) / _sensitivity;     //TODO: VERIFY formula
+    raw = map(raw, 0, 4096, 0, 10);
+    _state = ( raw <= level) ? true : false;        //TODO: Verify formula
+    return(_state);
 }
 
-float CurrentSensor::getValue() const
+const bool& LightSensor::isLight()
 {
-    return(_value);
+    return (_state) ? true : false;
 }
 
-
+const bool& LightSensor::isDark()
+{
+    return (!_state) ? true : false;
+}

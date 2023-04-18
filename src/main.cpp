@@ -17,8 +17,10 @@ void setup()
 
 void loop()
 {
+    home.display("Opening Gate");
     home.openGate();
     delay(1000);
+    home.display("closing gate");
     home.closeGate();
 
 }

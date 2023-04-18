@@ -58,7 +58,7 @@ public:
     void measure();
     float getValue() const;
 
-private:
+protected:
     uint32_t _signalPin;
     float _sensitivity, _value;
 
@@ -153,6 +153,22 @@ private:
     volatile bool _detected;
 };
 
+class LightSensor
+{
+public:
+    LightSensor() = default;
+    LightSensor(pin_t signalPin);
+
+    void begin();
+    const bool& measure(uint32_t level = 5);
+    const bool& isLight();
+    const bool& isDark();
+
+private:
+    uint32_t _signalPin;
+    bool _state;
+};
+
 class norahHome
 {
  public:
@@ -166,6 +182,11 @@ class norahHome
 void begin();
 void openGate();
 void closeGate();
+template <typename T>
+    void display(const T& val)
+    {
+        lcd->print(val);
+    }
 
 
  private:
