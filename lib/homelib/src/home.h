@@ -160,7 +160,7 @@ public:
     LightSensor(pin_t signalPin);
 
     void begin();
-    const bool& measure(uint32_t level = 5);
+    const bool& measure(uint32_t level = 5 );
     const bool& isLight();
     const bool& isDark();
 
@@ -174,8 +174,7 @@ class norahHome
  public:
   //constructor speake
  norahHome() = default;
- norahHome(DCMotor *Gate, LiquidCrystal_I2C *Screen);
-
+ norahHome(DCMotor *Gate, LiquidCrystal_I2C *Screen, DCMotor *Window, LightSensor* LDR, CurrentSensor* is, GasSensor* gas, PIRSensor *motion, IRSensor* Gate, DCMotor* fan, LEDDriver *sit, LEDDriver* bed);
 
 
  // methods
@@ -207,6 +206,9 @@ template <typename T>
 
  LEDDriver *sittingRoomLights;
  LEDDriver *bedRoomLights;
+
+ LightSensor *lightSensor;
+ CurrentSensor *currentSensor();
 };
 
 #endif
