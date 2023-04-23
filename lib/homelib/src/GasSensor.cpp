@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//*FILE NAME:       home.h
+//*FILE NAME:       GasSensor.cpp
 //*FILE DESC:       Implementation file for GasSensor.
 //*FILE VERSION:    0.1.1
 //*FILE AUTHOR:     Chimaroke Okwara
@@ -25,6 +25,7 @@ void GasSensor::begin()
 
 void GasSensor::measure()
 {
+    _threshold = _value;
     analogReadResolution(GRES);
     _value = analogRead(_signalPin);
 }

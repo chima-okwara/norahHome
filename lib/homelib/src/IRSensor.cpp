@@ -11,7 +11,7 @@
 #include <Arduino.h>
 #include "home.h"
 template <typename T>
-void readIR(T *sensor)
+    void readIR(T *sensor)
 {
     sensor->_detected = ( (digitalRead(sensor->_signalPin) == LOW) ? true : false );
 }

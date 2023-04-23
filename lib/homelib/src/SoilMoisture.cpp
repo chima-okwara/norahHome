@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//*FILE NAME:       home.h
+//*FILE NAME:       SoilMoisture.cpp
 //*FILE DESC:       Implementation file for Soil Moisture Sensor.
 //*FILE VERSION:    0.1.1
 //*FILE AUTHOR:     Chimaroke Okwara
@@ -12,37 +12,30 @@
 #define SRES 12
 #endif
 
-SoilMoisture::SoilMoisture(const uint32_t& pin, const uint32_t& power): _signalPin(pin), _powerPin(power), _moistureValue(new float (0.0))
+SoilMoisture::SoilMoisture(const uint32_t& pin): _signalPin(pin), _moistureValue(0.0)
 {
 
 }
 
-const float& SoilMoisture::measure() const
+const float& SoilMoisture::measure()
 {
     analogReadResolution(SRES);
-    digitalWrite(_powerPin, HIGH);
     delayMicroseconds(30);
     auto value = analogRead(_signalPin);
-    *_moistureValue = (float(value) / 4096) * 3.3;
-    *_moistureValue = map(*_moistureValue, 0, 4095, 0, 100);        //TODO: Verify this line
-    return *_moistureValue;
+    _moistureValue = (float(value) / 4096) * 3.3;
+    _moistureValue = map(_moistureValue, 0, 4095, 0, 100);        //TODO: Verify this line
+    return _moistureValue;
 }
 
 
 void SoilMoisture::begin()
 {
     pinMode(_signalPin, INPUT_ANALOG);
-    pinMode(_powerPin, INPUT_PULLDOWN);
     measure();
 }
 
-const float& SoilMoisture::getSoilMoisture() const
+const float& SoilMoisture::getSoilMoisture()
 {
-    return *_moistureValue;
+    return _moistureValue;
 }
 
-SoilMoisture::~SoilMoisture()
-{
-    delete _moistureValue;
-    _moistureValue = nullptr;
-}

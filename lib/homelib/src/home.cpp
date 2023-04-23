@@ -10,9 +10,9 @@
 #include "home.h"
 
 
-norahHome(DCMotor *Gate, LiquidCrystal_I2C *Screen, DCMotor *Window, LightSensor* LDR, CurrentSensor* is, GasSensor* gas, PIRSensor *motions, IRSensor* Gates, DCMotor* Fan, LEDDriver *sit, LEDDriver* bed)
+norahHome::norahHome(DCMotor *Gate, DCMotor *Door, LiquidCrystal_I2C *Screen, LightSensor* LDR, CurrentSensor* is, GasSensor* gas, PIRSensor *motion, SoilMoisture *soilMoisture, IRSensor* GateInside, IRSensor* GateOutside, ShiftReg* shr)
+:soilMoisture(soilMoisture), lcd(Screen), gateInside(GateInside), gateOutside(GateOutside), motion(motion), gate(Gate), door(Door), gasSensor(gas), lightSensor(LDR), currentSensor(is), shiftReg(shr)
 
-:lcd(Screen), gateSensor(Gates), motion(motions), fan(Fan), gate(Gate), windows(Window), gasSensor(gas), sittingRoomLights(sit), bedRoomLights(bed), lightSensor(LDR), currentSensor(is)
 {
 
 }
@@ -23,15 +23,13 @@ void norahHome::begin()
     lcd->begin();
     gate->begin();
     motion->begin();
-    gateSensor->begin();
-    fan->begin();
-    windows->begin();
+    gateInside->begin();
+    gateOutside->begin();
     gasSensor->begin();
-    sittingRoomLights->begin();
-    bedRoomLights()->begin();
     lightSensor->begin();
-    currentSensor()->begin();
-
+    soilMoisture->begin();
+    door->begin();
+    currentSensor->begin();
 }
 
 void norahHome::openGate()

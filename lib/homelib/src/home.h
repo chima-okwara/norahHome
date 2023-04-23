@@ -14,9 +14,15 @@
 #include <LiquidCrystal_I2C.h>
 #include <Servo.h>
 
-#define ADC_RESOLUTION 12
-#define  ADC_MAX_VALUE ((1 << ACD_RESOLUTION) -1)
+#define ON HIGH
+#define OFF LOW
+//#include <Arduino_ADC.h>
 
+#ifdef ADC_RESOLUTION
+    #undef ADC_RESOLUTION
+    #define ADC_RESOLUTION 12
+    #define  ADC_MAX_VALUE ((1 << ACD_RESOLUTION) -1)
+#endif
 
 using pin_t = const uint32_t&;
 enum class direction_t { forward = (bool) true, backward = (bool) false };
@@ -45,13 +51,80 @@ private:
     bool isGas;
 };
 
+class ShiftReg
+{
+
+    #define balconyLight 0
+    #define frontDoorLight 1
+    #define outsideLight 2
+    #define sittingRoomLight 3
+    #define bedroom1Light 4
+    #define bedroom2Light 5
+
+public:
+    ShiftReg() = default;
+    ShiftReg(pin_t Data, pin_t Latch, pin_t Clock, const uint8_t &initValue);
+
+    void begin();
+    void shiftValue(const uint8_t& value);
+    void shiftValue();
+    void toggleBalc(const uint8_t& value)
+    {
+        if(value)
+            _value |= (1 << balconyLight);
+        else
+            _value &= ~(1 << balconyLight);
+    }
+    void toggleFront(const uint8_t& value)
+    {
+        if(value)
+            _value |= (1 << frontDoorLight);
+        else
+            _value &= ~(1 << frontDoorLight);
+    }
+    void toggleOut(const uint8_t& value)
+    {
+        if(value)
+            _value |= (1 << outsideLight);
+        else
+            _value &= ~(1 << outsideLight);
+    }
+    void toggleSit(const uint8_t& value)
+    {
+        if(value)
+            _value |= (1 << sittingRoomLight);
+        else
+            _value &= ~(1 << sittingRoomLight);
+    }
+    void toggleBed1(const uint8_t& value)
+    {
+        if(value)
+            _value |= (1 << bedroom1Light);
+        else
+            _value &= ~(1 << bedroom1Light);
+    }
+    void toggleBed2(const uint8_t& value)
+    {
+        if(value)
+            _value |= (1 << bedroom2Light);
+        else
+            _value &= ~(1 << bedroom2Light);
+    }
+
+    const uint8_t& readValue() { return (_value); }
+
+
+private:
+    uint32_t _data, _latch, _clock, _value;
+
+};
+
 class CurrentSensor
 {
 public:
     //Constructors:
     CurrentSensor() = default;
-    CurrentSensor(pin_t signalPin, const float& sensitivity);
-    ~CurrentSensor();
+    CurrentSensor(pin_t signalPin, const float& sensitivity = 0.185);
 
     //Methods:
     void begin();
@@ -71,18 +144,16 @@ class SoilMoisture
 public:
     //Constructors:
     SoilMoisture() = default;
-    SoilMoisture(const uint32_t& sig, const uint32_t& power);
-    ~SoilMoisture();
+    SoilMoisture(const uint32_t& sig);
 
     //Method:
     void begin();
-    const float& measure() const;
-    const float& getSoilMoisture() const;
+    const float& measure();
+    const float& getSoilMoisture();
 
 private:
     uint32_t _signalPin;
-    uint32_t _powerPin;
-    float* _moistureValue;
+    float _moistureValue;
 };
 
 
@@ -130,7 +201,7 @@ public:
     void begin();
     const bool& detect();
     template <typename T>
-        void readIR(T *sensor);
+        friend void readIR(T *sensor);
 
 private:
     volatile uint32_t _signalPin;
@@ -146,7 +217,7 @@ public:
     void begin();
     const bool& isMotion();
     template <typename T>
-        void readPIR(T *sensor);
+        friend void readPIR(T *sensor);
 
 private:
     volatile uint32_t _signalPin;
@@ -174,18 +245,31 @@ class norahHome
  public:
   //constructor speake
  norahHome() = default;
- norahHome(DCMotor *Gate, LiquidCrystal_I2C *Screen, DCMotor *Window, LightSensor* LDR, CurrentSensor* is, GasSensor* gas, PIRSensor *motion, IRSensor* Gate, DCMotor* fan, LEDDriver *sit, LEDDriver* bed);
+ norahHome(DCMotor *Gate, DCMotor *Door, LiquidCrystal_I2C *Screen, LightSensor* LDR, CurrentSensor* is, GasSensor* gas, PIRSensor *motion, SoilMoisture *soilMoisture, IRSensor* GateInside, IRSensor* GateOutside, ShiftReg* shr);
 
 
  // methods
-void begin();
-void openGate();
-void closeGate();
+    void begin();
+    void openGate();
+    void closeGate();
 template <typename T>
     void display(const T& val)
     {
         lcd->print(val);
     }
+    void clear() { lcd->clear(); }
+    void setCursor(int c, int r) { lcd->setCursor(c ,r); }
+
+
+    //LIGHTS:
+    void balconyLights(uint8_t value) { shiftReg->toggleBalc(value); shiftReg->shiftValue();}
+    void sittingRoomLights(uint8_t value) { shiftReg->toggleSit(value); shiftReg->shiftValue();}
+    void bedroom1(uint8_t value) { shiftReg->toggleBed1(value); shiftReg->shiftValue();}
+    void bedroom2(uint8_t value) { shiftReg->toggleBed2(value); shiftReg->shiftValue();}
+    void outside(uint8_t value) { shiftReg->toggleOut(value); shiftReg->shiftValue();}
+    void frontDoor(uint8_t value) {shiftReg->toggleFront(value); shiftReg->shiftValue();}
+
+    //Door and Gate:
 
 
  private:
@@ -194,21 +278,19 @@ template <typename T>
 
  LiquidCrystal_I2C *lcd;
 
- IRSensor *gateSensor;
+ IRSensor *gateInside;
+ IRSensor *gateOutside;
  PIRSensor *motion;
 
- DCMotor *fan;
  DCMotor *gate;
- DCMotor *windows;
  DCMotor *door;
 
  GasSensor *gasSensor;
 
- LEDDriver *sittingRoomLights;
- LEDDriver *bedRoomLights;
-
  LightSensor *lightSensor;
- CurrentSensor *currentSensor();
+ CurrentSensor *currentSensor;
+ ShiftReg *shiftReg;
 };
+
 
 #endif

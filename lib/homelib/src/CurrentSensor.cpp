@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//*FILE NAME:       home.h
+//*FILE NAME:       CurrentSensor.cpp
 //*FILE DESC:       Implementation file for GasSensor.
 //*FILE VERSION:    0.1.1
 //*FILE AUTHOR:     Chimaroke Okwara
@@ -12,7 +12,7 @@
 #define ARES 12
 #endif
 
-CurrentSensor::CurrentSensor(pin_t signalPin, const float& sensitivity = 0.185) :_signalPin(signalPin), _sensitivity(sensitivity), _value(0)
+CurrentSensor::CurrentSensor(pin_t signalPin, const float& sensitivity) :_signalPin(signalPin), _sensitivity(sensitivity), _value(0)
 {
 
 }
