@@ -4,6 +4,8 @@
 #include <LiquidCrystal_I2C.h>
 #include <Servo.h>
 
+
+
 DCMotor gate (PB8, PB9);
 PIRSensor motion (PA4);
 IRSensor gateInside (PB4);
@@ -55,20 +57,24 @@ void setup()
 
 void loop()
 {
-    home.display("Opening Gate");
-    home.openGate();
     delay(1000);
-    home.display("closing gate");
-    home.closeGate();
-    home.balconyLights(OFF);
-
+    home.setCursor(0, 0);
+    home.display("Waiting...                                        ");
     if(gateOutside.detect())
     {
+        home.clear();
+        home.setCursor(0,0);
+        home.display("Opening Gate");
         home.openGate();
+        delay(1000);
     }
-    if(gateInside.detect())
 
+    if(gateInside.detect())
     {
+        home.clear();
+        home.setCursor(0,0);
+        home.display("closing gate");
        home.closeGate();
+       delay(1000);
     }
 }

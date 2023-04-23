@@ -24,7 +24,7 @@ IRSensor::IRSensor(pin_t signalPin):_signalPin(signalPin), _detected(false)
 void IRSensor::begin()
 {
     pinMode(_signalPin, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(_signalPin), [this] { readIR(this); }, FALLING);
+    attachInterrupt(digitalPinToInterrupt(_signalPin), [this] { readIR<IRSensor>(this); }, CHANGE);
 }
 
 const bool& IRSensor::detect()
