@@ -9,9 +9,9 @@
 #include <Arduino.h>
 #include "home.h"
 #ifndef MRES
-#define MRES 16
+#define MRES 12
 #endif
-DCMotor::DCMotor(pin_t mot1, pin_t mot2):_mot1(mot1), _mot2(mot2), _dir(direction_t::forward)
+DCMotor::DCMotor(pin_t mot1, pin_t mot2, pin_t en):_mot1(mot1), _mot2(mot2), _en(en), _dir(direction_t::forward)
 {
 
 }
@@ -20,20 +20,22 @@ bool DCMotor::begin()
 {
     pinMode(_mot1, OUTPUT);
     pinMode(_mot2, OUTPUT);
+    pinMode(_en, OUTPUT);
     analogWriteResolution(MRES);
     return(true);
 }
 
 const direction_t& DCMotor::move(const direction_t& dir, pin_t speed)
 {
+    analogWriteResolution(MRES);
     switch(dir)
     {
-        analogWriteResolution(MRES);
         case direction_t::forward:
         {
             // digitalWrite(_en, HIGH);
-            analogWrite(_mot1, speed);
-            analogWrite(_mot2, 0);
+            digitalWrite(_mot1, HIGH);
+            digitalWrite(_mot2, LOW);
+            analogWrite(_en, speed);
             _dir = direction_t::forward;
             break;
         }
@@ -41,8 +43,9 @@ const direction_t& DCMotor::move(const direction_t& dir, pin_t speed)
         case direction_t::backward:
         {
             // digitalWrite(_en, HIGH);
-            analogWrite(_mot1, 0);
-            analogWrite(_mot2, speed);
+            digitalWrite(_mot1, LOW);
+            digitalWrite(_mot2, HIGH);
+            analogWrite(_en, speed);
             _dir = direction_t::backward;
             break;
         }
@@ -55,8 +58,10 @@ const direction_t& DCMotor::move(const direction_t& dir, pin_t speed)
 void DCMotor::stop()
 {
     // digitalWrite(_en, 0);
-    analogWrite(_mot1, 0);
-    analogWrite(_mot2, 0);
+    analogWriteResolution(MRES);
+    digitalWrite(_mot1, LOW);
+    digitalWrite(_mot2, LOW);
+    analogWrite(_en, LOW);
 }
 
 

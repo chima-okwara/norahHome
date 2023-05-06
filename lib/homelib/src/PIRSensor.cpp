@@ -9,12 +9,6 @@
 #include <Arduino.h>
 #include "home.h"
 
-template <typename T>
-void readPIR(T *sensor)
-{
-    sensor->_detected = ( (digitalRead(sensor->_signalPin) == HIGH) ? true : false );
-}
-
 PIRSensor::PIRSensor(pin_t signalPin):_signalPin(signalPin), _detected(false)
 {
 
@@ -22,8 +16,8 @@ PIRSensor::PIRSensor(pin_t signalPin):_signalPin(signalPin), _detected(false)
 
 void PIRSensor::begin()
 {
-    pinMode(_signalPin, INPUT_PULLDOWN);
-    attachInterrupt(digitalPinToInterrupt(_signalPin), [this] { readPIR(this); }, RISING);
+    pinMode(_signalPin, INPUT);
+//    attachInterrupt(digitalPinToInterrupt(_signalPin), [this] { readPIR(this); }, RISING);
 }
 
 const bool& PIRSensor::isMotion()

@@ -21,17 +21,14 @@
 #ifdef ADC_RESOLUTION
     #undef ADC_RESOLUTION
     #define ADC_RESOLUTION 12
-    #define  ADC_MAX_VALUE ((1 << ACD_RESOLUTION) -1)
+    #define  ADC_MAX_VALUE ((1 << ADC_RESOLUTION) -1)
 #endif
+
+extern volatile uint32_t currentTime;
 
 using pin_t = const uint32_t&;
 enum class direction_t { forward = (bool) true, backward = (bool) false };
 
-template <typename T>
-    void readPIR(T *sensor);
-
-template <typename T>
-    void readIR(T *sensor);
 
 class GasSensor
 {
@@ -111,7 +108,7 @@ public:
             _value &= ~(1 << bedroom2Light);
     }
 
-    const uint8_t& readValue() { return (_value); }
+    const uint32_t& readValue() { return (_value); }
 
 
 private:
@@ -180,14 +177,14 @@ class DCMotor
 public:
 //To use L293D IC
     DCMotor() = default;
-    DCMotor(pin_t mot1, pin_t mot2);
+    DCMotor(pin_t mot1, pin_t mot2, pin_t en);
     bool begin();
     const direction_t& move(const direction_t& dir, pin_t speed);
     void stop();
     const direction_t& getDir() const;
 
 private:
-    uint32_t _mot1, _mot2;
+    uint32_t _mot1, _mot2, _en;
     direction_t _dir;
 
 };
@@ -200,12 +197,11 @@ public:
 
     void begin();
     const bool& detect();
-    template <typename T>
-        friend void readIR(T *sensor);
+    void read();
 
 private:
     volatile uint32_t _signalPin;
-    volatile bool _detected;
+    volatile int _detected;
 };
 
 class PIRSensor
@@ -216,8 +212,6 @@ public:
 
     void begin();
     const bool& isMotion();
-    template <typename T>
-        friend void readPIR(T *sensor);
 
 private:
     volatile uint32_t _signalPin;
@@ -252,6 +246,10 @@ class norahHome
     void begin();
     void openGate();
     void closeGate();
+    void openDoor();
+    void closeDoor();
+
+
 template <typename T>
     void display(const T& val)
     {

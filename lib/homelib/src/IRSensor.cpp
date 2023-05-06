@@ -10,11 +10,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #include <Arduino.h>
 #include "home.h"
-template <typename T>
-    void readIR(T *sensor)
-{
-    sensor->_detected = ( (digitalRead(sensor->_signalPin) == LOW) ? true : false );
-}
 
 IRSensor::IRSensor(pin_t signalPin):_signalPin(signalPin), _detected(false)
 {
@@ -23,8 +18,13 @@ IRSensor::IRSensor(pin_t signalPin):_signalPin(signalPin), _detected(false)
 
 void IRSensor::begin()
 {
-    pinMode(_signalPin, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(_signalPin), [this] { readIR<IRSensor>(this); }, CHANGE);
+    pinMode(_signalPin, INPUT);
+//    attachInterrupt(digitalPinToInterrupt(_signalPin), [this] { readIR<IRSensor>(this); }, CHANGE);
+}
+
+void IRSensor::read()
+{
+    _detected = ( (digitalRead(_signalPin) == LOW) ? true : false );
 }
 
 const bool& IRSensor::detect()
