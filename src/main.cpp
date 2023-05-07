@@ -4,12 +4,23 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 #include <Servo.h>
-#include <pinmap.h>
+#include <DHT.h>
 
 
 #define irInside PA15
 #define irOutside PB5
 #define motionSensor PA4
+#define balconyLightPin PA5
+#define frontDoorLightPin PA6
+#define outsideLightPin PA7
+#define sittingRoomLightPin PB0
+#define bedroom1LightPin PB1
+#define bedroom2LightPin PA11
+#define lightSensorPin PA2
+#define buzzerPin PC15
+#define tx PB7
+#define rx PB6
+
 
 
 #define gateDelay 2000
@@ -19,11 +30,11 @@ volatile bool gateInsideDetect = false,
          gateOutsideDetect = false,
          motionSensorDetect = false;
 
-bool gateOpened = false, doorOpened = false;
+bool gateOpened = false, doorOpened = false, isGas = false;
 
 //volatile uint32_t gateOpened = 0x00, gateClosed = 0x00;
 
-void readGateInside(), gateOpen(), readGateOutside(), gateClose(), readMotion(), openDoor(), closeDoor();
+void readGateInside(), gateOpen(), readGateOutside(), gateClose(), readMotion(), openDoor(), closeDoor(), flagLight();
 
 volatile uint32_t currentTime = 0x00;
 
@@ -31,18 +42,26 @@ uint32_t lcdUpdate = 0x00;
 
 
 DCMotor gate(PB8, PB9, PA11);
-PIRSensor motion (PA4);
-IRSensor gateInside (PB4);
-IRSensor gateOutside (PB5);
+PIRSensor motion (motionSensor);
+IRSensor gateInside (irInside);
+IRSensor gateOutside (irOutside);
 SoilMoisture soilMoisture (PA1);
-LightSensor lightSensor (PA3);
-CurrentSensor currentSensor (PA2);
-GasSensor gasSensor (PA0, 7);
-DCMotor door (PA8, PA9, PA10);
+LightSensor lightSensor (PA2);
+CurrentSensor currentSensor (PA3);
+GasSensor gasSensor (PA0);
+DCMotor door (PA12, PA9, PA8);
 LiquidCrystal_I2C lcd(0x27, 16, 2);
-ShiftReg shr(PA6, PA7, PA5, 0X00);
+LEDDriver l1(balconyLightPin);
+LEDDriver l2(frontDoorLightPin);
+LEDDriver l3(outsideLightPin);
+LEDDriver l4(sittingRoomLightPin);
+LEDDriver l5(bedroom1LightPin);
+LEDDriver l6(bedroom2LightPin);
+LEDDriver buzzer(buzzerPin);
 
-norahHome home (&gate, &door, &lcd, &lightSensor, &currentSensor, &gasSensor, &motion, &soilMoisture, &gateInside, &gateOutside, &shr);
+DHT tempSensor()
+
+norahHome home (&gate, &door, &lcd, &lightSensor, &currentSensor, &gasSensor, &motion, &soilMoisture, &gateInside, &gateOutside, &l1, &l2, &l3, &l4, &l5, &l6, tx, rx);
 
 
 void setup()
@@ -53,8 +72,10 @@ void setup()
     attachInterrupt(irInside, readGateInside, CHANGE);
     attachInterrupt(irOutside, readGateOutside, CHANGE);
     attachInterrupt(motionSensorDetect, readMotion, CHANGE);
+//    attachInterrupt(lightSensorPin, checkLight, CHANGE);
 
 
+    buzzer.begin();
     home.begin();
     home.clear();
     home.setCursor(0, 0);
@@ -90,16 +111,64 @@ void setup()
 void loop()
 {
     currentTime = millis();
+    lightSensor.measure(5);
+    gasSensor.measure();
+
+    if(gasSensor.gasDetect())
+    {
+        buzzer.setBrightness(4096);
+        buzzer.on();
+        home.clear();
+        home.setCursor(0, 0);
+        home.display("Gas detected!!!");
+        isGas = true;
+    }
+
+    else
+    {
+        buzzer.setBrightness(0);
+        buzzer.off();
+        isGas = false;
+    }
+
+
+    if (lightSensor.isDark())
+    {
+        home.light(balconyLight, 3000);
+        home.light(outsideLight, 3000);
+        home.clear();
+        home.setCursor(0, 0);
+        home.display("Nightfall...");
+        delay(500);
+        home.setCursor(0, 1);
+        home.display("Lights on.");
+        delay(1000);
+    }
+
+    else if(lightSensor.isLight())
+    {
+        home.light(balconyLight, OFF);
+        home.light(outsideLight, OFF);
+        home.clear();
+        home.setCursor(0, 0);
+        home.display("Daybreak...");
+        delay(500);
+        home.setCursor(0, 1);
+        home.display("Lights off.");
+        delay(1000);
+    }
+
+
     gasSensor.measure();
 
     if(gateInsideDetect)
         gateOpen();
     if(gateOutsideDetect)
         gateClose();
-    if(motionSensorDetect)
-        openDoor();
-    if (!motionSensorDetect)
-        closeDoor();
+//    if(motionSensorDetect)
+//        openDoor();
+//    if (!motionSensorDetect)
+//        closeDoor();
 
 
     if(currentTime - lcdUpdate >= 500)
@@ -192,3 +261,4 @@ void readMotion()
 {
     motionSensorDetect = (digitalRead(motionSensor) == HIGH) ? true : false;
 }
+

@@ -108,6 +108,7 @@
 		<Unit filename="lib/homelib/src/GasSensor.cpp" />
 		<Unit filename="lib/homelib/src/IRSensor.cpp" />
 		<Unit filename="lib/homelib/src/LEDDriver.cpp" />
+		<Unit filename="lib/homelib/src/LightSensor.cpp" />
 		<Unit filename="lib/homelib/src/PIRSensor.cpp" />
 		<Unit filename="lib/homelib/src/ShiftReg.cpp" />
 		<Unit filename="lib/homelib/src/SoilMoisture.cpp" />

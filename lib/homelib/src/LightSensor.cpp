@@ -26,9 +26,10 @@ void LightSensor::begin()
 
 const bool& LightSensor::measure(uint32_t level)
 {
+    analogReadResolution(LRES);
     static uint32_t raw = analogRead(_signalPin);
     raw = map(raw, 0, 4096, 0, 10);
-    _state = ( raw <= level) ? true : false;        //TODO: Verify formula
+    _state = ( raw >= level) ? true : false;        //TODO: Verify formula
     return(_state);
 }
 

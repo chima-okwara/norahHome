@@ -9,7 +9,7 @@
 #include <Arduino.h>
 #include "home.h"
 #ifndef LRES
-#define LRES 16
+#define LRES 12
 #endif
 
 LEDDriver::LEDDriver(pin_t signalPin):_signalPin(signalPin), _brightness(0)
@@ -36,6 +36,7 @@ pin_t LEDDriver::getBrightness() const
     return (_brightness);
 }
 
+
 pin_t LEDDriver::on()
 {
     analogWriteResolution(LRES);
@@ -45,6 +46,7 @@ pin_t LEDDriver::on()
 
 pin_t LEDDriver::off()
 {
+    analogWriteResolution(LRES);
     analogWrite(_signalPin, 0);
     return (getBrightness());
 }

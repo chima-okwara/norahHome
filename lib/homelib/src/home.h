@@ -13,6 +13,8 @@
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
 #include <Servo.h>
+#include <SoftwareSerial.h>
+#include <DHT.h>
 
 #define ON HIGH
 #define OFF LOW
@@ -28,6 +30,7 @@ extern volatile uint32_t currentTime;
 
 using pin_t = const uint32_t&;
 enum class direction_t { forward = (bool) true, backward = (bool) false };
+//enum class light_t { balcony = 0, frontDoor = 1, outside = 2, sittingRoom = 3, bedroom1 = 4, bedroom2 = 5 };
 
 
 class GasSensor
@@ -35,7 +38,7 @@ class GasSensor
 public:
     //Constructors:
     GasSensor() = default;
-    GasSensor(pin_t signalPin, pin_t threshold);
+    GasSensor(pin_t signalPin);
     // ~GasSensor();
 
     //Methods:
@@ -44,8 +47,9 @@ public:
     bool gasDetect() const;
 
 private:
-    uint32_t _signalPin, _threshold, _value;
-    bool isGas;
+    uint32_t _signalPin;
+    float _threshold, _value, _concentration;
+    bool _isGas;
 };
 
 class ShiftReg
@@ -239,7 +243,7 @@ class norahHome
  public:
   //constructor speake
  norahHome() = default;
- norahHome(DCMotor *Gate, DCMotor *Door, LiquidCrystal_I2C *Screen, LightSensor* LDR, CurrentSensor* is, GasSensor* gas, PIRSensor *motion, SoilMoisture *soilMoisture, IRSensor* GateInside, IRSensor* GateOutside, ShiftReg* shr);
+ norahHome(DCMotor *Gate, DCMotor *Door, LiquidCrystal_I2C *Screen, LightSensor* LDR, CurrentSensor* is, GasSensor* gas, PIRSensor *motion, SoilMoisture *soilMoisture, IRSensor* GateInside, IRSensor* GateOutside, LEDDriver* l1, LEDDriver* l2, LEDDriver* l3, LEDDriver* l4, LEDDriver *l5, LEDDriver* l6, pin_t espTx, pin_t espRx);
 
 
  // methods
@@ -248,6 +252,9 @@ class norahHome
     void closeGate();
     void openDoor();
     void closeDoor();
+
+    void light(const uint8_t& lite, pin_t value);
+
 
 
 template <typename T>
@@ -260,12 +267,12 @@ template <typename T>
 
 
     //LIGHTS:
-    void balconyLights(uint8_t value) { shiftReg->toggleBalc(value); shiftReg->shiftValue();}
-    void sittingRoomLights(uint8_t value) { shiftReg->toggleSit(value); shiftReg->shiftValue();}
-    void bedroom1(uint8_t value) { shiftReg->toggleBed1(value); shiftReg->shiftValue();}
-    void bedroom2(uint8_t value) { shiftReg->toggleBed2(value); shiftReg->shiftValue();}
-    void outside(uint8_t value) { shiftReg->toggleOut(value); shiftReg->shiftValue();}
-    void frontDoor(uint8_t value) {shiftReg->toggleFront(value); shiftReg->shiftValue();}
+    void balconyLights(uint8_t value) { shiftReg->toggleBalc(value); shiftReg->shiftValue(); }
+    void sittingRoomLights(uint8_t value) { shiftReg->toggleSit(value); shiftReg->shiftValue(); }
+    void bedroom1(uint8_t value) { shiftReg->toggleBed1(value); shiftReg->shiftValue(); }
+    void bedroom2(uint8_t value) { shiftReg->toggleBed2(value); shiftReg->shiftValue(); }
+    void outside(uint8_t value) { shiftReg->toggleOut(value); shiftReg->shiftValue(); }
+    void frontDoor(uint8_t value) {shiftReg->toggleFront(value); shiftReg->shiftValue(); }
 
     //Door and Gate:
 
@@ -288,6 +295,14 @@ template <typename T>
  LightSensor *lightSensor;
  CurrentSensor *currentSensor;
  ShiftReg *shiftReg;
+ LEDDriver* balc;
+ LEDDriver* frDoor;
+ LEDDriver* outLight;
+ LEDDriver* sitLight;
+ LEDDriver* bed1Light;
+ LEDDriver* bed2Light;
+ uint32_t _espTx, _espRx;
+ SoftwareSerial *esp;
 };
 
 
