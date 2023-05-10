@@ -21,6 +21,10 @@
 #define tx PB7
 #define rx PB6
 
+#define DHTPIN  PB14
+#define DHTTYPE DHT11
+
+
 
 
 #define gateDelay 2000
@@ -59,7 +63,7 @@ LEDDriver l5(bedroom1LightPin);
 LEDDriver l6(bedroom2LightPin);
 LEDDriver buzzer(buzzerPin);
 
-DHT tempSensor()
+DHT tempSensor(DHTPIN, DHTTYPE);
 
 norahHome home (&gate, &door, &lcd, &lightSensor, &currentSensor, &gasSensor, &motion, &soilMoisture, &gateInside, &gateOutside, &l1, &l2, &l3, &l4, &l5, &l6, tx, rx);
 
@@ -77,6 +81,7 @@ void setup()
 
     buzzer.begin();
     home.begin();
+    tempSensor.begin();
     home.clear();
     home.setCursor(0, 0);
     home.display("    norahHome   ");
