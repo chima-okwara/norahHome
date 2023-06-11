@@ -82,6 +82,7 @@ void setup()
     buzzer.begin();
     home.begin();
     tempSensor.begin();
+
     home.clear();
     home.setCursor(0, 0);
     home.display("    norahHome   ");
@@ -115,6 +116,12 @@ void setup()
 
 void loop()
 {
+    currentSensor.measure();
+
+    if(tempSensor.readTemperature() >= 30.0);
+    {
+
+    }
     currentTime = millis();
     lightSensor.measure(5);
     gasSensor.measure();

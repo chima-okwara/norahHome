@@ -103,7 +103,7 @@ void norahHome::light(const uint8_t& lite, pin_t value)
         case balconyLight:
         {
             balc->setBrightness(value);
-            if(value < 1)
+            if(value >= 1)
                 balc->on();
             else
                 balc->off();
@@ -113,7 +113,7 @@ void norahHome::light(const uint8_t& lite, pin_t value)
         case frontDoorLight:
         {
             frDoor->setBrightness(value);
-            if(value < 1)
+            if(value >= 1)
                 frDoor->on();
             else
                 frDoor->off();
@@ -123,7 +123,7 @@ void norahHome::light(const uint8_t& lite, pin_t value)
         case outsideLight:
         {
             outLight->setBrightness(value);
-            if(value < 1)
+            if(value >= 1)
                 outLight->on();
             else
                 outLight->off();
@@ -133,7 +133,7 @@ void norahHome::light(const uint8_t& lite, pin_t value)
         case sittingRoomLight:
         {
             sitLight->setBrightness(value);
-            if(value < 1)
+            if(value >= 1)
                 sitLight->on();
             else
                 sitLight->off();
@@ -143,7 +143,7 @@ void norahHome::light(const uint8_t& lite, pin_t value)
         case bedroom1Light:
         {
             bed1Light->setBrightness(value);
-            if(value < 1)
+            if(value >= 1)
                 bed1Light->on();
             else
                 bed1Light->off();
@@ -153,7 +153,7 @@ void norahHome::light(const uint8_t& lite, pin_t value)
         case bedroom2Light:
         {
             bed2Light->setBrightness(value);
-            if(value < 1)
+            if(value >= 1)
                 bed2Light->on();
             else
                 bed2Light->off();

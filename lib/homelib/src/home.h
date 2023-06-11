@@ -16,6 +16,13 @@
 #include <SoftwareSerial.h>
 #include <DHT.h>
 
+#define balconyLight 0
+#define frontDoorLight 1
+#define outsideLight 2
+#define sittingRoomLight 3
+#define bedroom1Light 4
+#define bedroom2Light 5
+
 #define ON HIGH
 #define OFF LOW
 //#include <Arduino_ADC.h>
@@ -54,13 +61,6 @@ private:
 
 class ShiftReg
 {
-
-    #define balconyLight 0
-    #define frontDoorLight 1
-    #define outsideLight 2
-    #define sittingRoomLight 3
-    #define bedroom1Light 4
-    #define bedroom2Light 5
 
 public:
     ShiftReg() = default;
@@ -266,14 +266,6 @@ template <typename T>
     void setCursor(int c, int r) { lcd->setCursor(c ,r); }
 
 
-    //LIGHTS:
-    void balconyLights(uint8_t value) { shiftReg->toggleBalc(value); shiftReg->shiftValue(); }
-    void sittingRoomLights(uint8_t value) { shiftReg->toggleSit(value); shiftReg->shiftValue(); }
-    void bedroom1(uint8_t value) { shiftReg->toggleBed1(value); shiftReg->shiftValue(); }
-    void bedroom2(uint8_t value) { shiftReg->toggleBed2(value); shiftReg->shiftValue(); }
-    void outside(uint8_t value) { shiftReg->toggleOut(value); shiftReg->shiftValue(); }
-    void frontDoor(uint8_t value) {shiftReg->toggleFront(value); shiftReg->shiftValue(); }
-
     //Door and Gate:
 
 
@@ -294,7 +286,6 @@ template <typename T>
 
  LightSensor *lightSensor;
  CurrentSensor *currentSensor;
- ShiftReg *shiftReg;
  LEDDriver* balc;
  LEDDriver* frDoor;
  LEDDriver* outLight;
