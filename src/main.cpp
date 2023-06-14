@@ -4,6 +4,7 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 #include <Servo.h>
+#include <STM32LowPower.h>
 #include <DHT.h>
 
 
@@ -18,6 +19,12 @@
 #define bedroom2LightPin PA11
 #define lightSensorPin PA2
 #define buzzerPin PC15
+#define currentSensorPin PA3
+#define currentThreshold 500.00
+#define sleepBtn PB13
+#define power PB12
+
+
 #define tx PB7
 #define rx PB6
 
@@ -29,20 +36,25 @@
 
 #define gateDelay 2000
 
-
+//Flags:
 volatile bool gateInsideDetect = false,
          gateOutsideDetect = false,
-         motionSensorDetect = false;
+         motionSensorDetect = false,
+         lights[6] { },
+         powerOn = false;
+
 
 bool gateOpened = false, doorOpened = false, isGas = false;
 
 //volatile uint32_t gateOpened = 0x00, gateClosed = 0x00;
 
-void readGateInside(), gateOpen(), readGateOutside(), gateClose(), readMotion(), openDoor(), closeDoor(), flagLight();
+void readGateInside(), gateOpen(), readGateOutside(), gateClose(), readMotion(), openDoor(), closeDoor(), flagLight(),
+     wakeUpAction();
 
 volatile uint32_t currentTime = 0x00;
 
 uint32_t lcdUpdate = 0x00;
+
 
 
 DCMotor gate(PB8, PB9, PA11);
@@ -51,7 +63,7 @@ IRSensor gateInside (irInside);
 IRSensor gateOutside (irOutside);
 SoilMoisture soilMoisture (PA1);
 LightSensor lightSensor (PA2);
-CurrentSensor currentSensor (PA3);
+CurrentSensor currentSensor (currentSensorPin);
 GasSensor gasSensor (PA0);
 DCMotor door (PA12, PA9, PA8);
 LiquidCrystal_I2C lcd(0x27, 16, 2);
@@ -68,16 +80,24 @@ DHT tempSensor(DHTPIN, DHTTYPE);
 norahHome home (&gate, &door, &lcd, &lightSensor, &currentSensor, &gasSensor, &motion, &soilMoisture, &gateInside, &gateOutside, &l1, &l2, &l3, &l4, &l5, &l6, tx, rx);
 
 
+
+
+
 void setup()
 {
+    pinMode(power, OUTPUT);
     pinMode(irInside, INPUT_PULLUP);
     pinMode(irOutside, INPUT_PULLUP);
     pinMode(motionSensor, INPUT);
+    pinMode(sleepBtn, INPUT_PULLDOWN);
     attachInterrupt(irInside, readGateInside, CHANGE);
     attachInterrupt(irOutside, readGateOutside, CHANGE);
     attachInterrupt(motionSensorDetect, readMotion, CHANGE);
 //    attachInterrupt(lightSensorPin, checkLight, CHANGE);
 
+
+    LowPower.begin();
+    LowPower.attachInterruptWakeup(sleepBtn, wakeUpAction, RISING, IDLE_MODE);
 
     buzzer.begin();
     home.begin();
@@ -111,11 +131,40 @@ void setup()
     home.display("    (c) 2023   ");
     delay(1000);
     home.clear();
+    wakeUpAction();
 }
 
 
 void loop()
 {
+    while(currentSensor.getValue() >= currentThreshold)
+    {
+        home.clear();
+        home.setCursor(0, 0);
+        home.display("Current exceeds threshold.");
+        home.setCursor(0, 1);
+        home.display("Disconnect");
+        delay(5000);
+        currentSensor.measure();
+        if(currentSensor.getValue() >= currentThreshold)
+        {
+            LowPower.idle();
+        }
+
+    }
+    
+    for (int i = 0; i < 6; ++i)
+    {
+        if(lights[i])
+        {
+            home.light(i, 3000);       
+        }    
+        
+        else
+        {
+            home.light(i, 0);        
+        }
+    }
     currentSensor.measure();
 
     if(tempSensor.readTemperature() >= 30.0);
@@ -196,11 +245,14 @@ void loop()
 void readGateInside()
 {
     gateInsideDetect = (digitalRead(irInside) == LOW ? true : false ) ;
+    currentSensor.measure();
+
 }
 
 void readGateOutside()
 {
     gateOutsideDetect = (digitalRead(irOutside) == LOW ? true : false ) ;
+    currentSensor.measure();
 }
 
 
@@ -269,8 +321,26 @@ void closeDoor()
         doorOpened = false;
     }
 }
+
+
 void readMotion()
 {
     motionSensorDetect = (digitalRead(motionSensor) == HIGH) ? true : false;
 }
 
+
+void wakeUpAction()
+{
+    if(!powerOn)
+    {
+        powerOn = true;
+        digitalWrite(power, HIGH);      //TODO: Check and verify operation of transistor.
+        LowPower.shutdown();
+    }
+
+    else
+    {
+        powerOn=false;
+        digitalWrite(power, LOW);
+    }
+}

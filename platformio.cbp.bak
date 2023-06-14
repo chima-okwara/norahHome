@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="norahHome" />
+		<Option makefile_is_custom="1" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<MakeCommands>
+			<Build command="/home/hamdallah/.local/bin/pio -f -c codeblocks run" />
+			<CompileFile command="/home/hamdallah/.local/bin/pio -f -c codeblocks run" />
+			<Clean command="/home/hamdallah/.local/bin/pio -f -c codeblocks run -t clean" />
+			<DistClean command="/home/hamdallah/.local/bin/pio -f -c codeblocks run -t clean" />
+			<AskRebuildNeeded command="1" />
+			<SilentBuild command="/home/hamdallah/.local/bin/pio -f -c codeblocks run &gt; $(CMD_NULL)" />
+		</MakeCommands>
+		<Build>
+			<Target title="Debug">
+				<Option type="4" />
+				<Option compiler="gcc" />
+				<Option parameters="-f -c codeblocks run -t upload" />
+				<Option host_application="/home/hamdallah/.local/bin/pio" />
+				<Option run_host_application_in_terminal="1" />
+				<MakeCommands>
+					<Build command="/home/hamdallah/.local/bin/pio -f -c codeblocks run" />
+					<CompileFile command="/home/hamdallah/.local/bin/pio -f -c codeblocks run" />
+					<Clean command="/home/hamdallah/.local/bin/pio -f -c codeblocks run -t clean" />
+					<DistClean command="/home/hamdallah/.local/bin/pio -f -c codeblocks run -t clean" />
+					<AskRebuildNeeded command="1" />
+					<SilentBuild command="/home/hamdallah/.local/bin/pio -f -c codeblocks run &gt; $(CMD_NULL)" />
+				</MakeCommands>
+			</Target>
+			<Target title="Release">
+				<Option type="4" />
+				<Option compiler="gcc" />
+				<Option parameters="-f -c codeblocks run -t upload" />
+				<Option host_application="/home/hamdallah/.local/bin/pio" />
+				<Option run_host_application_in_terminal="1" />
+				<MakeCommands>
+					<Build command="/home/hamdallah/.local/bin/pio -f -c codeblocks run" />
+					<CompileFile command="/home/hamdallah/.local/bin/pio -f -c codeblocks run" />
+					<Clean command="/home/hamdallah/.local/bin/pio -f -c codeblocks run -t clean" />
+					<DistClean command="/home/hamdallah/.local/bin/pio -f -c codeblocks run -t clean" />
+					<AskRebuildNeeded command="1" />
+					<SilentBuild command="/home/hamdallah/.local/bin/pio -f -c codeblocks run &gt; $(CMD_NULL)" />
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-DPLATFORMIO=60106" />
+			<Add option="-DSTM32F401xE" />
+			<Add option="-DSTM32F4xx" />
+			<Add option="-DARDUINO=10808" />
+			<Add option="-DARDUINO_ARCH_STM32" />
+			<Add option="-DARDUINO_GENERIC_F401CDUX" />
+			<Add option='-DBOARD_NAME=&quot;GENERIC_F401CDUX&quot;' />
+			<Add option="-DHAL_UART_MODULE_ENABLED" />
+			<Add option="-DUSE_FULL_LL_DRIVER" />
+			<Add option='-DVARIANT_H=&quot;variant_generic.h&quot;' />
+			<Add option="-DNDEBUG" />
+			<Add directory="/home/hamdallah/Documents/GitHub/norahHome/include" />
+			<Add directory="/home/hamdallah/Documents/GitHub/norahHome/src" />
+			<Add directory="/home/hamdallah/Documents/GitHub/norahHome/lib/homelib/src" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/libraries/SoftwareSerial/src" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/libraries/Servo/src" />
+			<Add directory="/home/hamdallah/Documents/GitHub/norahHome/lib/LCD" />
+			<Add directory="/home/hamdallah/Documents/GitHub/norahHome/lib/LCD/utility" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/libraries/Wire/src" />
+			<Add directory="/home/hamdallah/Documents/GitHub/norahHome/lib/DHT_sensor_library-1.4.4/src" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/cores/arduino/avr" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32/LL" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32/usb" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32/OpenAMP" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32/usb/hid" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32/usb/cdc" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/system/Drivers/STM32F4xx_HAL_Driver/Inc" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/system/Drivers/STM32F4xx_HAL_Driver/Src" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/system/STM32F4xx" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/system/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/system/Middlewares/ST/STM32_USB_Device_Library/Core/Src" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/system/Middlewares/OpenAMP" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/system/Middlewares/OpenAMP/open-amp/lib/include" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/system/Middlewares/OpenAMP/libmetal/lib/include" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/system/Middlewares/OpenAMP/virtual_driver" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-cmsis/CMSIS/Core/Include" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/system/Drivers/CMSIS/Device/ST/STM32F4xx/Include" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/system/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/gcc" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-cmsis/CMSIS/DSP/Include" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-cmsis/CMSIS/DSP/PrivateInclude" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/cores/arduino" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/variants/STM32F4xx/F401CC(F-U-Y)_F401C(B-D-E)(U-Y)" />
+			<Add directory="/home/hamdallah/Documents/GitHub/norahHome/lib/Adafruit_Sensor-master/src" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/libraries/CMSIS_DSP/src" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/libraries/EEPROM/src" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/libraries/IWatchdog/src" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/libraries/Keyboard/src" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/libraries/Mouse/src" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/libraries/RGB_LED_TLC59731/src" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/libraries/SPI/src" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/libraries/SrcWrapper/src" />
+			<Add directory="/home/hamdallah/.platformio/packages/framework-arduinoststm32/libraries/SubGhz/src" />
+			<Add directory="/home/hamdallah/.platformio/packages/toolchain-gccarmnoneeabi/arm-none-eabi/include/c++/9.2.1" />
+			<Add directory="/home/hamdallah/.platformio/packages/toolchain-gccarmnoneeabi/arm-none-eabi/include/c++/9.2.1/arm-none-eabi" />
+			<Add directory="/home/hamdallah/.platformio/packages/toolchain-gccarmnoneeabi/lib/gcc/arm-none-eabi/9.2.1/include-fixed" />
+			<Add directory="/home/hamdallah/.platformio/packages/toolchain-gccarmnoneeabi/lib/gcc/arm-none-eabi/9.2.1/include" />
+			<Add directory="/home/hamdallah/.platformio/packages/toolchain-gccarmnoneeabi/arm-none-eabi/include" />
+		</Compiler>
+		<Unit filename="lib/homelib/src/CurrentSensor.cpp" />
+		<Unit filename="lib/homelib/src/DCMotor.cpp" />
+		<Unit filename="lib/homelib/src/GasSensor.cpp" />
+		<Unit filename="lib/homelib/src/IRSensor.cpp" />
+		<Unit filename="lib/homelib/src/LEDDriver.cpp" />
+		<Unit filename="lib/homelib/src/LightSensor.cpp" />
+		<Unit filename="lib/homelib/src/PIRSensor.cpp" />
+		<Unit filename="lib/homelib/src/ShiftReg.cpp" />
+		<Unit filename="lib/homelib/src/SoilMoisture.cpp" />
+		<Unit filename="lib/homelib/src/home.cpp" />
+		<Unit filename="lib/homelib/src/home.h" />
+		<Unit filename="platformio.ini" />
+		<Unit filename="src/main.cpp" />
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>

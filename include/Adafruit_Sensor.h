@@ -1,1 +1,0 @@
-/home/hamdallah/GitHub/norahHome/lib/Adafruit_Sensor-master/src/Adafruit_Sensor.h
