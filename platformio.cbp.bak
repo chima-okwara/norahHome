@@ -106,6 +106,13 @@
 			<Add directory="/home/hamdallah/.platformio/packages/toolchain-gccarmnoneeabi/lib/gcc/arm-none-eabi/9.2.1/include" />
 			<Add directory="/home/hamdallah/.platformio/packages/toolchain-gccarmnoneeabi/arm-none-eabi/include" />
 		</Compiler>
+		<Unit filename="../norahHome_espcode/lib/norahHome_esp/src/esp_defs.h" />
+		<Unit filename="lib/Low_Power/src/STM32LowPower.cpp" />
+		<Unit filename="lib/Low_Power/src/STM32LowPower.h" />
+		<Unit filename="lib/Low_Power/src/low_power.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lib/Low_Power/src/low_power.h" />
 		<Unit filename="lib/homelib/src/CurrentSensor.cpp" />
 		<Unit filename="lib/homelib/src/DCMotor.cpp" />
 		<Unit filename="lib/homelib/src/GasSensor.cpp" />

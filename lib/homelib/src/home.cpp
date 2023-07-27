@@ -15,7 +15,7 @@
 
 
 norahHome::norahHome(DCMotor *Gate, DCMotor *Door, LiquidCrystal_I2C *Screen, LightSensor* LDR, CurrentSensor* is, GasSensor* gas, PIRSensor *motion, SoilMoisture *soilMoisture, IRSensor* GateInside, IRSensor* GateOutside, LEDDriver* l1, LEDDriver* l2, LEDDriver* l3, LEDDriver* l4, LEDDriver *l5, LEDDriver* l6, pin_t espTx, pin_t espRx)
-:soilMoisture(soilMoisture), lcd(Screen), gateInside(GateInside), gateOutside(GateOutside), motion(motion), gate(Gate), door(Door), gasSensor(gas), lightSensor(LDR), currentSensor(is), balc(l1), frDoor(l2), outLight(l3), sitLight(l4), bed1Light(l5), bed2Light(l6), _espTx(espTx), _espRx(espRx)
+    :soilMoisture(soilMoisture), lcd(Screen), gateInside(GateInside), gateOutside(GateOutside), motion(motion), gate(Gate), door(Door), gasSensor(gas), lightSensor(LDR), currentSensor(is), balc(l1), frDoor(l2), outLight(l3), sitLight(l4), bed1Light(l5), bed2Light(l6), _espTx(espTx), _espRx(espRx)
 
 {
 
@@ -101,69 +101,69 @@ void norahHome::light(const uint8_t& lite, pin_t value)
     switch(lite)
     {
         case balconyLight:
-        {
-            balc->setBrightness(value);
-            if(value >= 1)
-                balc->on();
-            else
-                balc->off();
-            break;
-        }
+            {
+                balc->setBrightness(value);
+                if(value >= 1)
+                    balc->on();
+                else
+                    balc->off();
+                break;
+            }
 
         case frontDoorLight:
-        {
-            frDoor->setBrightness(value);
-            if(value >= 1)
-                frDoor->on();
-            else
-                frDoor->off();
-            break;
-        }
+            {
+                frDoor->setBrightness(value);
+                if(value >= 1)
+                    frDoor->on();
+                else
+                    frDoor->off();
+                break;
+            }
 
         case outsideLight:
-        {
-            outLight->setBrightness(value);
-            if(value >= 1)
-                outLight->on();
-            else
-                outLight->off();
-            break;
-        }
+            {
+                outLight->setBrightness(value);
+                if(value >= 1)
+                    outLight->on();
+                else
+                    outLight->off();
+                break;
+            }
 
         case sittingRoomLight:
-        {
-            sitLight->setBrightness(value);
-            if(value >= 1)
-                sitLight->on();
-            else
-                sitLight->off();
-            break;
-        }
+            {
+                sitLight->setBrightness(value);
+                if(value >= 1)
+                    sitLight->on();
+                else
+                    sitLight->off();
+                break;
+            }
 
         case bedroom1Light:
-        {
-            bed1Light->setBrightness(value);
-            if(value >= 1)
-                bed1Light->on();
-            else
-                bed1Light->off();
-            break;
-        }
+            {
+                bed1Light->setBrightness(value);
+                if(value >= 1)
+                    bed1Light->on();
+                else
+                    bed1Light->off();
+                break;
+            }
 
         case bedroom2Light:
-        {
-            bed2Light->setBrightness(value);
-            if(value >= 1)
-                bed2Light->on();
-            else
-                bed2Light->off();
-            break;
-        }
+            {
+                bed2Light->setBrightness(value);
+                if(value >= 1)
+                    bed2Light->on();
+                else
+                    bed2Light->off();
+                break;
+            }
 
         default:
-        {
-            break;
-        }
+            {
+                break;
+            }
 
     }
 }

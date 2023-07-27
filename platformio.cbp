@@ -106,6 +106,13 @@
 			<Add directory="/home/hamdallah/.platformio/packages/toolchain-gccarmnoneeabi/lib/gcc/arm-none-eabi/9.2.1/include" />
 			<Add directory="/home/hamdallah/.platformio/packages/toolchain-gccarmnoneeabi/arm-none-eabi/include" />
 		</Compiler>
+		<Unit filename="../norahHome_espcode/lib/norahHome_esp/src/esp_defs.h" />
+		<Unit filename="lib/DHT_sensor_library-1.4.4/src/Adafruit_Sensor.cpp" />
+		<Unit filename="lib/DHT_sensor_library-1.4.4/src/Adafruit_Sensor.h" />
+		<Unit filename="lib/DHT_sensor_library-1.4.4/src/DHT.cpp" />
+		<Unit filename="lib/DHT_sensor_library-1.4.4/src/DHT.h" />
+		<Unit filename="lib/DHT_sensor_library-1.4.4/src/DHT_U.cpp" />
+		<Unit filename="lib/DHT_sensor_library-1.4.4/src/DHT_U.h" />
 		<Unit filename="lib/Low_Power/src/STM32LowPower.cpp" />
 		<Unit filename="lib/Low_Power/src/STM32LowPower.h" />
 		<Unit filename="lib/Low_Power/src/low_power.c">

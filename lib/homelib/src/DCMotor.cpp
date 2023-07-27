@@ -31,24 +31,24 @@ const direction_t& DCMotor::move(const direction_t& dir, pin_t speed)
     switch(dir)
     {
         case direction_t::forward:
-        {
-            // digitalWrite(_en, HIGH);
-            digitalWrite(_mot1, HIGH);
-            digitalWrite(_mot2, LOW);
-            analogWrite(_en, speed);
-            _dir = direction_t::forward;
-            break;
-        }
+            {
+                // digitalWrite(_en, HIGH);
+                digitalWrite(_mot1, HIGH);
+                digitalWrite(_mot2, LOW);
+                analogWrite(_en, speed);
+                _dir = direction_t::forward;
+                break;
+            }
 
         case direction_t::backward:
-        {
-            // digitalWrite(_en, HIGH);
-            digitalWrite(_mot1, LOW);
-            digitalWrite(_mot2, HIGH);
-            analogWrite(_en, speed);
-            _dir = direction_t::backward;
-            break;
-        }
+            {
+                // digitalWrite(_en, HIGH);
+                digitalWrite(_mot1, LOW);
+                digitalWrite(_mot2, HIGH);
+                analogWrite(_en, speed);
+                _dir = direction_t::backward;
+                break;
+            }
     }
 
     return (_dir);

@@ -27,14 +27,14 @@ void ShiftReg::begin()
 
 void ShiftReg::shiftValue(const uint8_t& value)
 {
-        digitalWrite(_latch, LOW); //Latch low - start sending
-        shiftOut(_data, _clock, MSBFIRST, value); //Shift most sig. bit first
-        digitalWrite(_latch, HIGH);
+    digitalWrite(_latch, LOW); //Latch low - start sending
+    shiftOut(_data, _clock, MSBFIRST, value); //Shift most sig. bit first
+    digitalWrite(_latch, HIGH);
 }
 
 void ShiftReg::shiftValue()
 {
-        digitalWrite(_latch, LOW); //Latch low - start sending
-        shiftOut(_data, _clock, MSBFIRST, _value); //Shift most sig. bit first
-        digitalWrite(_latch, HIGH);
+    digitalWrite(_latch, LOW); //Latch low - start sending
+    shiftOut(_data, _clock, MSBFIRST, _value); //Shift most sig. bit first
+    digitalWrite(_latch, HIGH);
 }

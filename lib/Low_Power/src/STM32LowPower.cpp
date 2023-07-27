@@ -41,9 +41,9 @@ STM32LowPower LowPower;
 
 STM32LowPower::STM32LowPower()
 {
-  _configured = false;
-  _serial = NULL;
-  _rtc_wakeup = false;
+    _configured = false;
+    _serial = NULL;
+    _rtc_wakeup = false;
 }
 
 /**
@@ -53,8 +53,8 @@ STM32LowPower::STM32LowPower()
   */
 void STM32LowPower::begin(void)
 {
-  LowPower_init();
-  _configured = true;
+    LowPower_init();
+    _configured = true;
 }
 
 /**
@@ -65,10 +65,11 @@ void STM32LowPower::begin(void)
   */
 void STM32LowPower::idle(uint32_t ms)
 {
-  if ((ms != 0) || _rtc_wakeup) {
-    programRtcWakeUp(ms, IDLE_MODE);
-  }
-  LowPower_sleep(PWR_MAINREGULATOR_ON);
+    if ((ms != 0) || _rtc_wakeup)
+    {
+        programRtcWakeUp(ms, IDLE_MODE);
+    }
+    LowPower_sleep(PWR_MAINREGULATOR_ON);
 }
 
 /**
@@ -79,14 +80,15 @@ void STM32LowPower::idle(uint32_t ms)
   */
 void STM32LowPower::sleep(uint32_t ms)
 {
-  if ((ms != 0) || _rtc_wakeup) {
-    programRtcWakeUp(ms, SLEEP_MODE);
-  }
-#if defined(PWR_LOWPOWERREGULATOR_ON)
-  LowPower_sleep(PWR_LOWPOWERREGULATOR_ON);
-#else
-  LowPower_sleep(PWR_MAINREGULATOR_ON);
-#endif
+    if ((ms != 0) || _rtc_wakeup)
+    {
+        programRtcWakeUp(ms, SLEEP_MODE);
+    }
+    #if defined(PWR_LOWPOWERREGULATOR_ON)
+    LowPower_sleep(PWR_LOWPOWERREGULATOR_ON);
+    #else
+    LowPower_sleep(PWR_MAINREGULATOR_ON);
+    #endif
 
 }
 
@@ -98,10 +100,11 @@ void STM32LowPower::sleep(uint32_t ms)
   */
 void STM32LowPower::deepSleep(uint32_t ms)
 {
-  if ((ms != 0) || _rtc_wakeup) {
-    programRtcWakeUp(ms, DEEP_SLEEP_MODE);
-  }
-  LowPower_stop(_serial);
+    if ((ms != 0) || _rtc_wakeup)
+    {
+        programRtcWakeUp(ms, DEEP_SLEEP_MODE);
+    }
+    LowPower_stop(_serial);
 }
 
 /**
@@ -112,10 +115,11 @@ void STM32LowPower::deepSleep(uint32_t ms)
   */
 void STM32LowPower::shutdown(uint32_t ms)
 {
-  if ((ms != 0) || _rtc_wakeup) {
-    programRtcWakeUp(ms, SHUTDOWN_MODE);
-  }
-  LowPower_shutdown();
+    if ((ms != 0) || _rtc_wakeup)
+    {
+        programRtcWakeUp(ms, SHUTDOWN_MODE);
+    }
+    LowPower_shutdown();
 }
 
 /**
@@ -131,12 +135,13 @@ void STM32LowPower::shutdown(uint32_t ms)
   */
 void STM32LowPower::attachInterruptWakeup(uint32_t pin, voidFuncPtrVoid callback, uint32_t mode, LP_Mode LowPowerMode)
 {
-  attachInterrupt(pin, callback, mode);
+    attachInterrupt(pin, callback, mode);
 
-  if (LowPowerMode == SHUTDOWN_MODE) {
-    // If Gpio is a Wake up pin activate it for shutdown (standby or shutdown stm32)
-    LowPower_EnableWakeUpPin(pin, mode);
-  }
+    if (LowPowerMode == SHUTDOWN_MODE)
+    {
+        // If Gpio is a Wake up pin activate it for shutdown (standby or shutdown stm32)
+        LowPower_EnableWakeUpPin(pin, mode);
+    }
 }
 
 /**
@@ -148,12 +153,13 @@ void STM32LowPower::attachInterruptWakeup(uint32_t pin, voidFuncPtrVoid callback
   */
 void STM32LowPower::enableWakeupFrom(HardwareSerial *serial, voidFuncPtrVoid callback)
 {
-  if (serial != NULL) {
-    _serial = &(serial->_serial);
-    // Reconfigure serial for low power mode (using HSI as clock source)
-    serial->configForLowPower();
-    LowPower_EnableWakeUpUart(_serial, callback);
-  }
+    if (serial != NULL)
+    {
+        _serial = &(serial->_serial);
+        // Reconfigure serial for low power mode (using HSI as clock source)
+        serial->configForLowPower();
+        LowPower_EnableWakeUpUart(_serial, callback);
+    }
 }
 
 /**
@@ -166,11 +172,12 @@ void STM32LowPower::enableWakeupFrom(HardwareSerial *serial, voidFuncPtrVoid cal
   */
 void STM32LowPower::enableWakeupFrom(STM32RTC *rtc, voidFuncPtr callback, void *data)
 {
-  if (rtc == NULL) {
-    rtc = &(STM32RTC::getInstance());
-  }
-  _rtc_wakeup = true;
-  rtc->attachInterrupt(callback, data);
+    if (rtc == NULL)
+    {
+        rtc = &(STM32RTC::getInstance());
+    }
+    _rtc_wakeup = true;
+    rtc->attachInterrupt(callback, data);
 }
 
 /**
@@ -181,47 +188,50 @@ void STM32LowPower::enableWakeupFrom(STM32RTC *rtc, voidFuncPtr callback, void *
   */
 void STM32LowPower::programRtcWakeUp(uint32_t ms, LP_Mode lp_mode)
 {
-  uint32_t epoc;
-  uint32_t sec;
-  STM32RTC &rtc = STM32RTC::getInstance();
-  STM32RTC::Source_Clock clkSrc = rtc.getClockSource();
+    uint32_t epoc;
+    uint32_t sec;
+    STM32RTC &rtc = STM32RTC::getInstance();
+    STM32RTC::Source_Clock clkSrc = rtc.getClockSource();
 
-  switch (lp_mode) {
-    case IDLE_MODE:
-    case SLEEP_MODE:
-      break;
-    // LSI or LSE must be selected as clock source to wakeup the device.
-    case DEEP_SLEEP_MODE:
-      clkSrc = (clkSrc == STM32RTC::HSE_CLOCK) ? STM32RTC::LSI_CLOCK : clkSrc;
-      break;
-    default:
-    case SHUTDOWN_MODE:
-#if defined(PWR_CR1_LPMS)
-      // For shutdown mode LSE have to be used
-      clkSrc = STM32RTC::LSE_CLOCK;
-#else
-      // LSE or LSI
-      clkSrc = (clkSrc == STM32RTC::HSE_CLOCK) ? STM32RTC::LSI_CLOCK : clkSrc;
-#endif
-      break;
-  }
-  rtc.configForLowPower(clkSrc);
-
-  if (ms != 0) {
-    // Convert millisecond to second
-    sec = ms / 1000;
-
-    uint32_t epoc_ms;
-    ms = ms % 1000;
-    epoc = rtc.getEpoch(&epoc_ms);
-
-    //Update epoch_ms - might need to add a second to epoch
-    epoc_ms += ms;
-    if (epoc_ms >= 1000) {
-      sec ++;
-      epoc_ms -= 1000;
+    switch (lp_mode)
+    {
+        case IDLE_MODE:
+        case SLEEP_MODE:
+            break;
+        // LSI or LSE must be selected as clock source to wakeup the device.
+        case DEEP_SLEEP_MODE:
+            clkSrc = (clkSrc == STM32RTC::HSE_CLOCK) ? STM32RTC::LSI_CLOCK : clkSrc;
+            break;
+        default:
+        case SHUTDOWN_MODE:
+            #if defined(PWR_CR1_LPMS)
+            // For shutdown mode LSE have to be used
+            clkSrc = STM32RTC::LSE_CLOCK;
+            #else
+            // LSE or LSI
+            clkSrc = (clkSrc == STM32RTC::HSE_CLOCK) ? STM32RTC::LSI_CLOCK : clkSrc;
+            #endif
+            break;
     }
+    rtc.configForLowPower(clkSrc);
 
-    rtc.setAlarmEpoch(epoc + sec, STM32RTC::MATCH_DHHMMSS, epoc_ms);
-  }
+    if (ms != 0)
+    {
+        // Convert millisecond to second
+        sec = ms / 1000;
+
+        uint32_t epoc_ms;
+        ms = ms % 1000;
+        epoc = rtc.getEpoch(&epoc_ms);
+
+        //Update epoch_ms - might need to add a second to epoch
+        epoc_ms += ms;
+        if (epoc_ms >= 1000)
+        {
+            sec ++;
+            epoc_ms -= 1000;
+        }
+
+        rtc.setAlarmEpoch(epoc + sec, STM32RTC::MATCH_DHHMMSS, epoc_ms);
+    }
 }
